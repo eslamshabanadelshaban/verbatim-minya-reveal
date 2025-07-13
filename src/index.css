@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Inter:wght@300;400;500;600;700&family=Almarai:wght@300;400;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -132,7 +132,11 @@ All colors MUST be HSL.
   }
   
   .handwritten-text {
-    @apply font-almarai text-[hsl(var(--marker-text))] leading-relaxed;
+    @apply font-inter text-[hsl(var(--marker-text))] leading-relaxed;
+  }
+  
+  .handwritten-title {
+    @apply font-caveat text-[hsl(var(--marker-accent))] font-bold;
   }
   
   .marker-accent {
@@ -174,6 +178,16 @@ All colors MUST be HSL.
   .fade-in {
     @apply animate-[fade-in_0.8s_ease-out];
   }
+  
+  /* Enhanced animations */
+  .slide-up {
+    @apply animate-[slide-up_0.6s_ease-out];
+  }
+  
+  /* Focus states for accessibility */
+  .focus-visible {
+    @apply outline-2 outline-offset-2 outline-[hsl(var(--c-main))];
+  }
 }
 
 @layer utilities {
@@ -205,6 +219,17 @@ All colors MUST be HSL.
   0% {
     opacity: 0;
     transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-up {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
   }
   100% {
     opacity: 1;

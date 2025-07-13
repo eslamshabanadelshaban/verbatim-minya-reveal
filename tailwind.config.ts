@@ -19,6 +19,8 @@ export default {
 		},
 		extend: {
 			fontFamily: {
+				caveat: ['Caveat', 'cursive'],
+				inter: ['Inter', 'sans-serif'],
 				almarai: ['Almarai', 'sans-serif'],
 			},
 			colors: {

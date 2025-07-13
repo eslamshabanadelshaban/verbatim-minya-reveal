@@ -5,260 +5,175 @@ interface SlideContentProps {
   slide: Slide;
 }
 
-const SlideContent: React.FC<SlideContentProps> = ({ slide }) => {
+const SlideContent = ({ slide }: SlideContentProps) => {
   const renderContent = () => {
     switch (slide.type) {
       case 'cover':
         return (
-          <div className="text-center py-16 fade-in">
-            <h1 className="text-6xl font-bold handwritten-text marker-accent mb-8">
-              {slide.content.title}
-            </h1>
-            {slide.content.subtitle && (
-              <p className="text-2xl handwritten-text text-c-text mb-6">
-                {slide.content.subtitle}
-              </p>
+          <div className="relative min-h-screen flex items-center justify-center p-8">
+            {slide.background && (
+              <div className="absolute inset-0 bg-gradient-to-br from-c-page via-whiteboard-bg to-c-page opacity-90"></div>
             )}
-            {slide.content.description && (
-              <div className="max-w-3xl mx-auto text-lg handwritten-text text-c-text leading-relaxed">
-                {slide.content.description}
+            <div className="relative z-10 text-center space-y-8 max-w-4xl mx-auto">
+              <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-xl border border-c-border">
+                <h1 className="text-4xl md:text-6xl lg:text-7xl font-caveat font-bold marker-accent mb-6 leading-tight">
+                  {slide.title}
+                </h1>
+                {slide.subtitle && (
+                  <h2 className="text-xl md:text-2xl lg:text-3xl font-inter text-marker-text leading-relaxed">
+                    {slide.subtitle}
+                  </h2>
+                )}
               </div>
-            )}
+            </div>
           </div>
         );
 
-      case 'separator':
+      case 'agenda':
         return (
-          <div className="text-center py-20 fade-in">
-            <h1 className="text-7xl font-bold handwritten-text marker-accent mb-6">
-              {slide.content.title}
-            </h1>
-            {slide.content.subtitle && (
-              <p className="text-3xl handwritten-text text-c-text">
-                {slide.content.subtitle}
-              </p>
-            )}
+          <div className="min-h-screen flex flex-col justify-center p-8 space-y-12">
+            <div className="text-center mb-8">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-caveat font-bold marker-accent mb-6 leading-tight">
+                {slide.title}
+              </h1>
+              {slide.subtitle && (
+                <h2 className="text-xl md:text-2xl lg:text-3xl font-inter text-marker-text leading-relaxed">
+                  {slide.subtitle}
+                </h2>
+              )}
+            </div>
+            <div className="max-w-4xl mx-auto">
+              <h3 className="text-3xl md:text-4xl font-caveat font-semibold marker-accent mb-8 text-center">Agenda:</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {slide.content?.map((item, index) => (
+                  <div key={index} className="flex items-center space-x-4 p-6 bg-white rounded-xl shadow-lg border border-c-border hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                    <span className="text-2xl font-caveat font-bold text-c-orange min-w-[3rem] text-center bg-c-orange/10 rounded-full w-12 h-12 flex items-center justify-center">
+                      {index + 1}
+                    </span>
+                    <span className="text-lg md:text-xl font-inter text-marker-text leading-relaxed">
+                      {item}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        );
+
+      case 'text':
+        return (
+          <div className="min-h-screen flex flex-col justify-center p-8 space-y-12">
+            <div className="text-center mb-8">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-caveat font-bold marker-accent mb-6 leading-tight">
+                {slide.title}
+              </h1>
+            </div>
+            <div className="max-w-5xl mx-auto">
+              <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-8 md:p-12 shadow-xl border border-c-border">
+                <div className="space-y-8">
+                  {slide.content?.map((paragraph, index) => (
+                    <p key={index} className="text-lg md:text-xl lg:text-2xl font-inter text-marker-text leading-relaxed handwritten-text">
+                      {paragraph}
+                    </p>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
         );
 
       case 'table':
         return (
-          <div className="fade-in">
-            <h2 className="text-4xl font-bold handwritten-text marker-accent mb-8 text-center">
-              {slide.content.title}
-            </h2>
-            <div className="overflow-x-auto">
-              <table className="w-full border-collapse bg-white rounded-lg shadow-lg">
-                <thead>
-                  <tr className="bg-c-main">
-                    {slide.content.headers.map((header: string, index: number) => (
-                      <th
-                        key={index}
-                        className="p-4 text-left text-white font-bold handwritten-text border border-c-border"
-                      >
-                        {header}
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {slide.content.rows.map((row: string[], rowIndex: number) => (
-                    <tr key={rowIndex} className={rowIndex % 2 === 0 ? 'bg-c-page' : 'bg-white'}>
-                      {row.map((cell: string, cellIndex: number) => (
-                        <td
-                          key={cellIndex}
-                          className="p-4 handwritten-text text-c-text border border-c-border"
-                        >
-                          {cell}
-                        </td>
+          <div className="min-h-screen flex flex-col justify-center p-8 space-y-12">
+            <div className="text-center mb-8">
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-caveat font-bold marker-accent mb-6 leading-tight">
+                {slide.title}
+              </h1>
+            </div>
+            <div className="max-w-7xl mx-auto">
+              <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl border border-c-border overflow-hidden">
+                <div className="overflow-x-auto">
+                  <table className="w-full min-w-[800px]">
+                    <thead className="bg-c-main/10">
+                      <tr>
+                        {slide.tableHeaders?.map((header, index) => (
+                          <th key={index} className="text-left p-6 font-caveat font-semibold text-lg md:text-xl marker-accent border-b border-c-border">
+                            {header}
+                          </th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {slide.tableData?.map((row, rowIndex) => (
+                        <tr key={rowIndex} className="border-b border-c-border hover:bg-c-page/30 transition-colors duration-200">
+                          {row.map((cell, cellIndex) => (
+                            <td key={cellIndex} className="p-6 font-inter text-marker-text text-sm md:text-base leading-relaxed">
+                              {cell}
+                            </td>
+                          ))}
+                        </tr>
                       ))}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             </div>
           </div>
         );
 
-      case 'content':
-      default:
+      case 'swot':
         return (
-          <div className="fade-in">
-            <h2 className="text-4xl font-bold handwritten-text marker-accent mb-8 text-center">
-              {slide.content.title}
-            </h2>
-            
-            {slide.content.agenda && (
-              <div className="text-center mb-8">
-                <h3 className="text-2xl font-bold handwritten-text marker-accent mb-4">Agenda:</h3>
-                <ol className="text-xl handwritten-text text-c-text space-y-2 max-w-2xl mx-auto">
-                  {slide.content.agenda.map((item: string, index: number) => (
-                    <li key={index} className="flex items-center justify-start">
-                      <span className="marker-accent font-bold mr-3">{index + 1}.</span>
-                      {item}
-                    </li>
-                  ))}
-                </ol>
-              </div>
-            )}
-
-            {slide.content.text && (
-              <div className="max-w-4xl mx-auto text-lg handwritten-text text-c-text leading-relaxed mb-8">
-                {slide.content.text}
-              </div>
-            )}
-
-            {slide.content.sections && (
-              <div className="space-y-8">
-                {slide.content.sections.map((section: any, index: number) => (
-                  <div key={index} className="bg-white p-6 rounded-lg shadow-lg">
-                    <h3 className="text-2xl font-bold handwritten-text marker-accent mb-4">
-                      {section.subtitle}
+          <div className="min-h-screen flex flex-col justify-center p-8 space-y-12">
+            <div className="text-center mb-8">
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-caveat font-bold marker-accent mb-6 leading-tight">
+                {slide.title}
+              </h1>
+            </div>
+            <div className="max-w-6xl mx-auto">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                {slide.swotData && Object.entries(slide.swotData).map(([category, items]) => (
+                  <div key={category} className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl border border-c-border p-8 transform hover:scale-105 transition-all duration-300">
+                    <h3 className="text-2xl md:text-3xl font-caveat font-semibold marker-accent mb-6 capitalize text-center">
+                      {category}
                     </h3>
-                    {section.text && (
-                      <p className="text-lg handwritten-text text-c-text leading-relaxed mb-4">
-                        {section.text}
-                      </p>
-                    )}
-                    {section.items && (
-                      <ul className="space-y-2">
-                        {section.items.map((item: string, itemIndex: number) => (
-                          <li key={itemIndex} className="flex items-start">
-                            <span className="marker-accent font-bold mr-3">•</span>
-                            <span className="text-lg handwritten-text text-c-text">{item}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-                    {section.table && (
-                      <div className="overflow-x-auto mt-4">
-                        <table className="w-full border-collapse">
-                          <thead>
-                            <tr className="bg-c-main">
-                              {section.table.headers.map((header: string, headerIndex: number) => (
-                                <th
-                                  key={headerIndex}
-                                  className="p-3 text-left text-white font-bold handwritten-text border"
-                                >
-                                  {header}
-                                </th>
-                              ))}
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {section.table.rows.map((row: string[], rowIndex: number) => (
-                              <tr key={rowIndex} className={rowIndex % 2 === 0 ? 'bg-c-page' : 'bg-white'}>
-                                {row.map((cell: string, cellIndex: number) => (
-                                  <td
-                                    key={cellIndex}
-                                    className="p-3 handwritten-text text-c-text border"
-                                  >
-                                    {cell}
-                                  </td>
-                                ))}
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
-            )}
-
-            {slide.content.swot && (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="bg-green-50 p-6 rounded-lg border-l-4 border-green-500">
-                  <h3 className="text-2xl font-bold handwritten-text text-green-700 mb-4">Strengths</h3>
-                  <ul className="space-y-2">
-                    {slide.content.swot.strengths.map((item: string, index: number) => (
-                      <li key={index} className="flex items-start">
-                        <span className="text-green-600 mr-2">✓</span>
-                        <span className="handwritten-text text-c-text">{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div className="bg-blue-50 p-6 rounded-lg border-l-4 border-blue-500">
-                  <h3 className="text-2xl font-bold handwritten-text text-blue-700 mb-4">Opportunities</h3>
-                  <ul className="space-y-2">
-                    {slide.content.swot.opportunities.map((item: string, index: number) => (
-                      <li key={index} className="flex items-start">
-                        <span className="text-blue-600 mr-2">→</span>
-                        <span className="handwritten-text text-c-text">{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div className="bg-red-50 p-6 rounded-lg border-l-4 border-red-500">
-                  <h3 className="text-2xl font-bold handwritten-text text-red-700 mb-4">Weaknesses</h3>
-                  <ul className="space-y-2">
-                    {slide.content.swot.weaknesses.map((item: string, index: number) => (
-                      <li key={index} className="flex items-start">
-                        <span className="text-red-600 mr-2">✗</span>
-                        <span className="handwritten-text text-c-text">{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div className="bg-yellow-50 p-6 rounded-lg border-l-4 border-yellow-500">
-                  <h3 className="text-2xl font-bold handwritten-text text-yellow-700 mb-4">Threats</h3>
-                  <ul className="space-y-2">
-                    {slide.content.swot.threats.map((item: string, index: number) => (
-                      <li key={index} className="flex items-start">
-                        <span className="text-yellow-600 mr-2">!</span>
-                        <span className="handwritten-text text-c-text">{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            )}
-
-            {slide.content.platforms && (
-              <div className="space-y-8">
-                <p className="text-xl handwritten-text text-c-text mb-6 font-bold">
-                  Platforms: Facebook, Instagram, Company Website.
-                </p>
-                {slide.content.platforms.map((platform: any, index: number) => (
-                  <div key={index} className="bg-white p-6 rounded-lg shadow-lg">
-                    <h3 className="text-2xl font-bold handwritten-text marker-accent mb-4">
-                      {platform.name}
-                    </h3>
-                    <ul className="space-y-3">
-                      {platform.tactics.map((tactic: string, tacticIndex: number) => (
-                        <li key={tacticIndex} className="flex items-start">
-                          <span className="marker-accent font-bold mr-3">•</span>
-                          <span className="text-lg handwritten-text text-c-text">{tactic}</span>
+                    <ul className="space-y-4">
+                      {items.map((item, index) => (
+                        <li key={index} className="flex items-start space-x-4">
+                          <span className="text-c-orange font-bold text-xl mt-1">•</span>
+                          <span className="font-inter text-marker-text text-base md:text-lg leading-relaxed">
+                            {item}
+                          </span>
                         </li>
                       ))}
                     </ul>
                   </div>
                 ))}
               </div>
-            )}
+            </div>
+          </div>
+        );
 
-            {slide.content.items && (
-              <div className="max-w-4xl mx-auto">
-                <ul className="space-y-3">
-                  {slide.content.items.map((item: string, index: number) => (
-                    <li key={index} className="flex items-start">
-                      <span className="marker-accent font-bold mr-3">•</span>
-                      <span className="text-lg handwritten-text text-c-text">{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
+      default:
+        return (
+          <div className="min-h-screen flex items-center justify-center p-8">
+            <div className="text-center">
+              <h1 className="text-4xl font-caveat font-bold marker-accent mb-4">
+                {slide.title}
+              </h1>
+              <p className="text-lg font-inter text-marker-text">
+                Content type not supported yet.
+              </p>
+            </div>
           </div>
         );
     }
   };
 
   return (
-    <div className="p-8 h-full overflow-y-auto">
-      {renderContent()}
+    <div className="whiteboard w-full min-h-screen flex flex-col justify-center" role="main" aria-label={`Slide ${slide.id + 1}: ${slide.title}`}>
+      <div className="fade-in" style={{ animationDelay: '0.2s' }}>
+        {renderContent()}
+      </div>
     </div>
   );
 };
