@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -8,34 +10,48 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
+    /* Lo2ta Store Brand Colors */
+    --c-page: 48 6% 96%; /* #f5f5f5 background */
+    --c-text: 0 0% 49%; /* #7e7e7e primary text */
+    --c-main: 116 74% 33%; /* #249d1c accent/primary */
+    --c-border: 0 0% 88%; /* #e1e1e1 borders */
+    --c-orange: 35 95% 58%; /* #faa831 secondary accent */
+    
+    /* Presentation specific colors */
+    --whiteboard-bg: 0 0% 98%;
+    --marker-text: 0 0% 15%;
+    --marker-accent: 116 74% 33%;
+    --timer-bg: 35 95% 58%;
+    --nav-hover: 116 74% 40%;
+    
+    /* Gradients */
+    --gradient-bg: linear-gradient(135deg, hsl(var(--c-page)), hsl(48 6% 94%));
+    --gradient-card: linear-gradient(145deg, hsl(var(--whiteboard-bg)), hsl(0 0% 96%));
+    
+    /* Animations */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+    /* Default shadcn variables */
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
-
     --card: 0 0% 100%;
     --card-foreground: 222.2 84% 4.9%;
-
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
-
-    --primary: 222.2 47.4% 11.2%;
+    --primary: 116 74% 33%;
     --primary-foreground: 210 40% 98%;
-
     --secondary: 210 40% 96.1%;
     --secondary-foreground: 222.2 47.4% 11.2%;
-
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
-
-    --accent: 210 40% 96.1%;
+    --accent: 35 95% 58%;
     --accent-foreground: 222.2 47.4% 11.2%;
-
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
-
-    --border: 214.3 31.8% 91.4%;
+    --border: 0 0% 88%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-
+    --ring: 116 74% 33%;
     --radius: 0.5rem;
 
     --sidebar-background: 0 0% 98%;
@@ -100,6 +116,98 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-almarai;
+  }
+}
+
+@layer components {
+  /* Presentation Components */
+  .presentation-container {
+    @apply min-h-screen bg-gradient-to-br from-[hsl(var(--c-page))] to-[hsl(48_6%_94%)];
+  }
+  
+  .whiteboard {
+    @apply bg-gradient-to-br from-[hsl(var(--whiteboard-bg))] to-[hsl(0_0%_96%)] 
+           rounded-2xl shadow-2xl border border-[hsl(var(--c-border))];
+  }
+  
+  .handwritten-text {
+    @apply font-almarai text-[hsl(var(--marker-text))] leading-relaxed;
+  }
+  
+  .marker-accent {
+    @apply text-[hsl(var(--marker-accent))] font-bold;
+  }
+  
+  .nav-button {
+    @apply bg-[hsl(var(--c-main))] text-white rounded-full p-4 
+           transition-all duration-300 hover:bg-[hsl(var(--nav-hover))] 
+           hover:scale-110 shadow-lg hover:shadow-xl;
+  }
+  
+  .timer-circle {
+    @apply w-16 h-16 rounded-full bg-[hsl(var(--timer-bg))] 
+           flex items-center justify-center text-white font-bold;
+  }
+  
+  /* Animations */
+  .slide-enter {
+    @apply opacity-0 transform translate-x-8;
+  }
+  
+  .slide-enter-active {
+    @apply opacity-100 transform translate-x-0 transition-all duration-500;
+  }
+  
+  .slide-exit {
+    @apply opacity-100 transform translate-x-0;
+  }
+  
+  .slide-exit-active {
+    @apply opacity-0 transform -translate-x-8 transition-all duration-500;
+  }
+  
+  .bounce-in {
+    @apply animate-[bounce-in_0.6s_ease-out];
+  }
+  
+  .fade-in {
+    @apply animate-[fade-in_0.8s_ease-out];
+  }
+}
+
+@layer utilities {
+  .text-handwriting {
+    font-family: 'Almarai', cursive;
+    letter-spacing: 0.5px;
+  }
+}
+
+/* Keyframes */
+@keyframes bounce-in {
+  0% {
+    transform: scale(0.3) translateY(-50px);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

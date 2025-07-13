@@ -18,7 +18,25 @@ export default {
 			}
 		},
 		extend: {
+			fontFamily: {
+				almarai: ['Almarai', 'sans-serif'],
+			},
 			colors: {
+				// Lo2ta Store Brand Colors
+				'c-page': 'hsl(var(--c-page))',
+				'c-text': 'hsl(var(--c-text))',
+				'c-main': 'hsl(var(--c-main))',
+				'c-border': 'hsl(var(--c-border))',
+				'c-orange': 'hsl(var(--c-orange))',
+				
+				// Presentation colors
+				'whiteboard-bg': 'hsl(var(--whiteboard-bg))',
+				'marker-text': 'hsl(var(--marker-text))',
+				'marker-accent': 'hsl(var(--marker-accent))',
+				'timer-bg': 'hsl(var(--timer-bg))',
+				'nav-hover': 'hsl(var(--nav-hover))',
+				
+				// Default shadcn colors
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
 				ring: 'hsl(var(--ring))',
